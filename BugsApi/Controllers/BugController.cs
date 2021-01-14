@@ -54,7 +54,7 @@ namespace BugsApi.Controllers
             return new JsonResult(success);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var bug = await _db.Bug.FirstOrDefaultAsync(n => n.Id == id);

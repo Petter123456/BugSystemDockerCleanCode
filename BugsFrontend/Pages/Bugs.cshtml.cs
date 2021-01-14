@@ -43,7 +43,6 @@ namespace BugsFrontend.Pages
         public async Task OnGetDelete(int id)
         {
             result = await httpClient.DeleteAsync(bugController + id);
-
             RedirectToPage("/Bugs");
         }
 

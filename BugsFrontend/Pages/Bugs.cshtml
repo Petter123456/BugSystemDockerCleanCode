@@ -1,0 +1,45 @@
+﻿@page
+@model BugViewModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Please see all current bugs below </h1>
+    <br />
+    @{
+
+        if (ViewData["bugs"] != null)
+        {
+            @foreach (var bug in @ViewData["bugs"] as IEnumerable<BugsFrontend.Models.BugModel>)
+            {
+                <ul>
+                    <li>
+                        <h3>@bug.Name</h3> <a asp-page-handler="Delete" asp-route-id="@bug.Id">Delete</a>
+                        <br/>
+                        <form method="post">
+                            <input hidden name="id" value="@bug.Id">
+                            <label>Update the bug name</label>
+                            <br/>
+                            <input type="text" name="name">
+                            <br /> 
+                            <input type="submit" value="Update">
+                        </form>
+                    </li>
+                </ul>
+                <br />
+
+            }
+
+            <br />
+
+            <h3>Add a new bug</h3>
+            <form method="post">
+                <label>Enter the name/description of the bug</label>
+                <br />
+                <input type="text" name="name">
+                <input type="submit" value="create" asp-page-handler="Create">
+            </form>
+        }
+    }
+</div>

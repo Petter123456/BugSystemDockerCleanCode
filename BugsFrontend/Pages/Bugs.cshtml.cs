@@ -27,7 +27,7 @@ namespace BugsFrontend.Pages
             this.httpClient.BaseAddress = new Uri(config.GetValue<string>("BugClientUrl"));
         }
 
-            public async Task OnGet()
+        public async Task OnGet()
         {
             ViewData["Message"] = "Welcome to the bug system";
 
@@ -40,11 +40,11 @@ namespace BugsFrontend.Pages
             ViewData["Message"] += " and " + bug[0].Name;
         }
 
-        public async Task<IActionResult> OnGetDelete(string id)
+        public async Task OnGetDelete(int id)
         {
             result = await httpClient.DeleteAsync(bugController + id);
 
-            return Page();
+            RedirectToPage("/Bugs");
         }
 
         public async Task OnPost(int id, string name)
@@ -53,7 +53,7 @@ namespace BugsFrontend.Pages
             bugsName = JsonConvert.SerializeObject(bug);
             result = await httpClient.PutAsync(bugController + id, new StringContent(bugsName.ToString(), Encoding.UTF8, "application/json"));
 
-            RedirectToPage("/Index");
+            RedirectToPage("/Bugs");
         }
 
         public async Task OnPostCreate(string name)
@@ -62,7 +62,7 @@ namespace BugsFrontend.Pages
             bugsName = JsonConvert.SerializeObject(bug);
             result = await httpClient.PostAsync(bugController, new StringContent(bugsName.ToString(), Encoding.UTF8, "application/json"));
 
-            await OnGet();
+            RedirectToPage("/Bugs");
         }
     }
 }

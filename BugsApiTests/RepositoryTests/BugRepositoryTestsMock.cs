@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BugsApi.Controllers.Tests
 {
     [TestClass]
-    public class BugApiTestsMock : IBugsRepository
+    public class BugRepositoryTestsMock : IBugsRepository
     {
 
         public async Task<IActionResult> Create(BugModel bugModel)

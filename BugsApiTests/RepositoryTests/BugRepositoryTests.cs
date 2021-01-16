@@ -1,20 +1,13 @@
-﻿using BugsApi.Data;
-using BugsApi.Models;
+﻿using BugsApi.Models;
 using BugsApi.Repositories;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BugsApi.Controllers.Tests
 {
     [TestClass()]
-    public class BugApiTests : BugApiTestsMock
+    public class BugRepositoryTests : BugRepositoryTestsMock
     {
         [TestMethod()]
         public void Get_Should_not_return_null()

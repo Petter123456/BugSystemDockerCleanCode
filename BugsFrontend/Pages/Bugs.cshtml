@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
+<div class="text-center" id="bugsCrudOperations">
     <h1 class="display-4">Please see all current bugs below </h1>
     <br />
     @{
@@ -15,15 +15,15 @@
             {
                 <ul>
                     <li>
-                        <h3>@bug.Name</h3> <a asp-page-handler="Delete" asp-route-id="@bug.Id">Delete</a>
+                        <h3>@bug.Name</h3> <a asp-page-handler="Delete" asp-route-id="@bug.Id" >Delete</a>
                         <br/>
                         <form method="post">
                             <input hidden name="id" value="@bug.Id">
                             <label>Update the bug name</label>
                             <br/>
-                            <input type="text" name="name">
+                            <input type="text" name="name" id="bugName">
                             <br /> 
-                            <input type="submit" value="Update">
+                            <input type="submit" id="update" value="Update">
                         </form>
                     </li>
                 </ul>

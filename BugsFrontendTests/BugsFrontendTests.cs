@@ -13,22 +13,22 @@ using FluentAssertions;
 
 namespace BugsFrontend.Pages.Tests
 {
-    [TestClass()]
-    public class BugsFrontendTests
-    {
-        [TestMethod()]
-        public void If_no_id_matches_db_when_calling_delete_throw_exception()
-        {
-            //Arrange
-            var configuration = new Mock<IConfiguration>();
+    //[TestClass()]
+    //public class BugsFrontendTests
+    //{
+    //    [TestMethod()]
+    //    public void If_no_id_matches_db_when_calling_delete_throw_exception()
+    //    {
+    //        //Arrange
+    //        var configuration = new Mock<IConfiguration>();
 
-            HttpClient http = new HttpClient(); 
-            var sut = new BugViewModel((IConfiguration)configuration, http);
-            //act
-            var actual = sut.OnGetDelete(1);
+    //        HttpClient http = new HttpClient(); 
+    //        var sut = new BugViewModel((IConfiguration)configuration, http);
+    //        //act
+    //        var actual = sut.OnGetDelete(1);
 
-            //Assert
-            actual.Should().NotBeNull();
-        }
-    }
+    //        //Assert
+    //        actual.Should().NotBeNull();
+    //    }
+    //}
 }

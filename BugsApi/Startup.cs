@@ -1,5 +1,6 @@
 using BugsApi.Data;
 using BugsApi.Models;
+using BugsApi.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace BugsApi
 
             services.AddControllers();
 
+            services.AddScoped<IBugsRepository, BugsRepository>();
 
             services.AddDbContext<AppDbContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("AppDbContext")));

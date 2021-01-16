@@ -40,28 +40,28 @@ namespace BugsFrontend.Pages
             ViewData["Message"] += " and " + bug[0].Name;
         }
 
-        public async Task OnGetDelete(int id)
+        public async Task<IActionResult> OnGetDelete(int id)
         {
             result = await httpClient.DeleteAsync(bugController + id);
-            RedirectToPage("/Bugs");
+            return RedirectToPage("Bugs");
         }
 
-        public async Task OnPost(int id, string name)
+        public async Task<IActionResult> OnPost(int id, string name)
         {
             var bug = new BugModel { Id = id, Name = name };
             bugsName = JsonConvert.SerializeObject(bug);
             result = await httpClient.PutAsync(bugController + id, new StringContent(bugsName.ToString(), Encoding.UTF8, "application/json"));
 
-            RedirectToPage("/Bugs");
+            return RedirectToPage("Bugs");
         }
 
-        public async Task OnPostCreate(string name)
+        public async Task<IActionResult> OnPostCreate(string name)
         {
             var bug = new BugModel { Name = name };
             bugsName = JsonConvert.SerializeObject(bug);
             result = await httpClient.PostAsync(bugController, new StringContent(bugsName.ToString(), Encoding.UTF8, "application/json"));
 
-            RedirectToPage("/Bugs");
+            return RedirectToPage("Bugs");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BugsApi.Data;
 using BugsApi.Models;
+using BugsApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,55 +14,35 @@ namespace BugsApi.Controllers
     [Route("[controller]")]
     public class BugController : Controller
     {
-        private readonly AppDbContext _db;
+        private readonly IBugsRepository _bugsRepository;
 
-        public BugController(AppDbContext appDbContext)
+        public BugController(IBugsRepository bugsRepository)
         {
-            _db = appDbContext;
+            _bugsRepository = bugsRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BugModel>>> Get()
         {
-         
-            return await _db.Bug.ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var bug = await _db.Bug.FirstOrDefaultAsync(n => n.Id == id);
-
-            return new JsonResult(bug);
+           return await _bugsRepository.Get(); 
         }
 
         [HttpPost]
         public async Task<IActionResult> PostAsync(BugModel bug)
         {
-            await _db.Bug.AddAsync(bug);
-            await _db.SaveChangesAsync();
-
-            return new JsonResult(bug.Id);
+           return await _bugsRepository.Create(bug); 
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync(int id, BugModel bug)
         {
-            var existingBug = await _db.Bug.FirstOrDefaultAsync(n => n.Id == id);
-            existingBug.Name = bug.Name;
-            var success = (await _db.SaveChangesAsync()) > 0;
-
-            return new JsonResult(success);
+            return await _bugsRepository.Update(id, bug); 
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var bug = await _db.Bug.FirstOrDefaultAsync(n => n.Id == id);
-            _db.Remove(bug);
-            var success = (await _db.SaveChangesAsync()) > 0;
-
-            return new JsonResult(success);
+            return await _bugsRepository.Delete(id); 
         }
     }
 }

@@ -1,0 +1,22 @@
+{
+  "name": "ccdockerbugs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Petter123456/BugSystemDockerCleanCode.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Petter123456/BugSystemDockerCleanCode/issues"
+  },
+  "homepage": "https://github.com/Petter123456/BugSystemDockerCleanCode#readme",
+  "devDependencies": {
+    "cypress": "^6.2.1"
+  }
+}

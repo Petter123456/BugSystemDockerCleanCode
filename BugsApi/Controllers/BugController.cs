@@ -1,11 +1,8 @@
-﻿using BugsApi.Data;
-using BugsApi.Models;
+﻿using BugsApi.Models;
 using BugsApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BugsApi.Controllers
@@ -24,25 +21,55 @@ namespace BugsApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BugModel>>> Get()
         {
-           return await _bugsRepository.Get(); 
+            try
+            {
+                return await _bugsRepository.Get();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Not able to retrive items from db");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> PostAsync(BugModel bug)
         {
-           return await _bugsRepository.Create(bug); 
+            try
+            {
+                return await _bugsRepository.Create(bug);
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Not able to add bug to db");
+            }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync(int id, BugModel bug)
         {
-            return await _bugsRepository.Update(id, bug); 
+            try
+            {
+                return await _bugsRepository.Update(id, bug);
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Not able to update bug in db");
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return await _bugsRepository.Delete(id); 
+            try
+            {
+                return await _bugsRepository.Delete(id);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Not able to delete bug in db");
+            }
         }
     }
 }

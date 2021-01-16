@@ -19,7 +19,6 @@ namespace BugsApi.Repositories
         {
             await appDbContext.Bug.AddAsync(bugModel);
             await appDbContext.SaveChangesAsync();
-            var x = new JsonResult(bugModel.Id);
             return new JsonResult(bugModel.Id);
         }
 

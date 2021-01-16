@@ -9,7 +9,6 @@ describe('Base', function () {
     it('Should reload the page upon press of crud buttons', () => {
         cy.get("#bugName").type("no product")
         cy.get('#update').click();
-        // cy.visit('https://localhost:49163/bugs');
         cy.url().should('eq', 'https://localhost:49163/bugs');
     })
 })

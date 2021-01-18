@@ -1,65 +1,44 @@
-﻿using BugsFrontend.Models;
+﻿using BugsFrontend.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BugsFrontend.Pages
 {
     public class BugViewModel : PageModel
     {
-        private string bugController = "Bug/";
-        private string bugsName;
-        private HttpResponseMessage result;
-        private List<BugModel> bug;
-        private readonly HttpClient httpClient;
+        private readonly IBugsApiRequest _bugsApiRequest;
 
-        public BugViewModel(IConfiguration config, HttpClient httpClient)
+        public BugViewModel(IBugsApiRequest bugsApiRequest)
         {
-            this.httpClient = httpClient;
-            this.httpClient.BaseAddress = new Uri(config.GetValue<string>("BugClientUrl"));
+            _bugsApiRequest = bugsApiRequest;
         }
 
         public async Task OnGet()
         {
             ViewData["Message"] = "Welcome to the bug system";
 
-            result = await httpClient.GetAsync(bugController);
-            var content = await result.Content.ReadAsStringAsync();
-            bug = JsonConvert.DeserializeObject<List<BugModel>>(content);
+            var bugs = await _bugsApiRequest.GetBugsAsync();
 
-            ViewData["bugs"] = bug;
-
-            ViewData["Message"] += " and " + bug[0].Name;
+            ViewData["bugs"] = bugs;
         }
 
         public async Task<IActionResult> OnGetDelete(int id)
         {
-            result = await httpClient.DeleteAsync(bugController + id);
+            await _bugsApiRequest.DeleteBugAsync(id);
             return RedirectToPage("Bugs");
         }
 
         public async Task<IActionResult> OnPost(int id, string name)
         {
-            var bug = new BugModel { Id = id, Name = name };
-            bugsName = JsonConvert.SerializeObject(bug);
-            result = await httpClient.PutAsync(bugController + id, new StringContent(bugsName.ToString(), Encoding.UTF8, "application/json"));
+            await _bugsApiRequest.UpdateBugAsync(id, name);
 
             return RedirectToPage("Bugs");
         }
 
         public async Task<IActionResult> OnPostCreate(string name)
         {
-            var bug = new BugModel { Name = name };
-            bugsName = JsonConvert.SerializeObject(bug);
-            result = await httpClient.PostAsync(bugController, new StringContent(bugsName.ToString(), Encoding.UTF8, "application/json"));
+            await _bugsApiRequest.CreateBugAsync(name);
 
             return RedirectToPage("Bugs");
         }

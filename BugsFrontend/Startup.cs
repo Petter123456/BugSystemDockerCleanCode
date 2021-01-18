@@ -1,3 +1,4 @@
+using BugsFrontend.Interfaces;
 using BugsFrontend.Pages;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,11 +26,7 @@ namespace BugsFrontend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            //services.AddHttpsRedirection(options =>
-            //{
-            //    options.HttpsPort = 443;
-            //});
-
+            services.AddScoped<IBugsApiRequest, BugsApiRequest>();
             services.AddHttpClient<IndexModel>(configureClient =>
             configureClient.BaseAddress = new Uri(Configuration.GetValue<string>("BugClientUrl")));
         }

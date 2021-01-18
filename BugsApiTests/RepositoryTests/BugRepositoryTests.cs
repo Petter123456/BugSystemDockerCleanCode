@@ -99,7 +99,7 @@ namespace BugsApi.Controllers.Tests
             var actual = repository.Object.Create(bug);
 
             //Assert
-            actual.Should().Be(true);
+            actual.Result.Should().Be(true);
         }
 
         [TestMethod()]

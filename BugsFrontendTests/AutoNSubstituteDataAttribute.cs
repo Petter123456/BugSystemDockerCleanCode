@@ -1,9 +1,8 @@
-﻿using AutoFixture;
+﻿using System;
+using AutoFixture;
 using AutoFixture.Xunit2;
-using BugsFrontendTests;
-using System;
 
-namespace BugsFrontend.Pages.Tests
+namespace BugsFrontendTests
 {
     public class AutoNSubstituteDataAttribute : AutoDataAttribute
     {

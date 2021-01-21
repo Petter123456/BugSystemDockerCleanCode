@@ -4,7 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace BugsApi.Controllers.Tests
+namespace BugsApiTests.RepositoryTests
 {
     [TestClass()]
     public class BugRepositoryTests : BugRepositoryTestsMock
@@ -86,7 +86,8 @@ namespace BugsApi.Controllers.Tests
             //Assert
             actual.Result.Should().BeNull();
         }
-
+        
+        [TestMethod()]
         public void Create_Should_return_Succesfull_if_bug_is_entered_Correctly()
         {
             //Arrange    
@@ -99,7 +100,7 @@ namespace BugsApi.Controllers.Tests
             var actual = repository.Object.Create(bug);
 
             //Assert
-            actual.Result.Should().Be(true);
+            actual.IsCompletedSuccessfully.Should().Be(true);
         }
 
         [TestMethod()]

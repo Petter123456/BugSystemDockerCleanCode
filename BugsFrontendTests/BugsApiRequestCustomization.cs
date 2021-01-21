@@ -1,19 +1,11 @@
 ﻿using AutoFixture;
-using AutoFixture.Kernel;
 using BugsFrontend.Interfaces;
 using BugsFrontend.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Primitives;
-using Moq;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http.Results;
+using AutoFixture.AutoMoq;
+using Moq;
 
 namespace BugsFrontendTests
 {
@@ -21,10 +13,6 @@ namespace BugsFrontendTests
     {
         public void Customize(IFixture fixture)
         {
-            var bug = fixture.Build<BugModel>().CreateMany();
-            var listOfBugs = fixture.Build<List<BugModel>>().Create();
-
-
             IConfiguration configRoot = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
@@ -35,18 +23,19 @@ namespace BugsFrontendTests
                 })
                 .Build();
 
-            var x = new BugsApiRequest(configRoot, new HttpClient()); 
-
+            var autoMockCuztomisation = fixture.Customize(new AutoMoqCustomization());
+            var bug = fixture.Build<BugModel>().CreateMany();
+            var listOfBugs = fixture.Build<List<BugModel>>().Create();
+            var messageHandler = new Mock<HttpMessageHandler>();    
+            var httpClient = new HttpClient(messageHandler.Object); 
+            var bugApiRequest = new BugsApiRequest(configRoot, httpClient);
+            
+            fixture.Register(() => autoMockCuztomisation);
             fixture.Register(() => bug);
             fixture.Register(() => configRoot);
-            fixture.Register(() => x);
             fixture.Register(() => listOfBugs);
-
-
+            fixture.Register(() => httpClient);
+            fixture.Register(() => bugApiRequest);
         }
-    }
-
-    internal class YourConcreteImplementation
-    {
     }
 }

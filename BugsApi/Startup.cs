@@ -57,27 +57,21 @@ namespace BugsApi
                 endpoints.MapControllers();
             });
 
-
-
-
-
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
-               .CreateScope())
-            {
-                serviceScope.ServiceProvider
-                    .GetService<AppDbContext>().Database.EnsureDeleted();
-                serviceScope.ServiceProvider
-                    .GetService<AppDbContext>()
-                    .Database
-                    .Migrate();
-                serviceScope.ServiceProvider
-                    .GetService<AppDbContext>().Add(new BugModel()
-                    {
-                        Name = "first"
-                    });
-                serviceScope.ServiceProvider
-                    .GetService<AppDbContext>().SaveChanges();
-            }
+            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                .CreateScope();
+            serviceScope.ServiceProvider
+                .GetService<AppDbContext>().Database.EnsureDeleted();
+            serviceScope.ServiceProvider
+                .GetService<AppDbContext>()
+                .Database
+                .Migrate();
+            serviceScope.ServiceProvider
+                .GetService<AppDbContext>().Add(new BugModel()
+                {
+                    Name = "first"
+                });
+            serviceScope.ServiceProvider
+                .GetService<AppDbContext>().SaveChanges();
         }
     }
 }

@@ -11,25 +11,23 @@ namespace BugsFrontendTests
 {
     public class BugsApiRequestMockData : IBugsApiRequest
     {
-        private string bugsName;
-        private HttpResponseMessage result;
-        private readonly HttpClient httpClient = new HttpClient();
-        private string bugController = "Bug/";
-        public string jsonString = JsonConvert.SerializeObject(new List<BugModel> { new BugModel { Id = 1, Name = "no product" }
-});
+        public string BugsName;
+        public HttpResponseMessage Result;
+        private readonly HttpClient _httpClient = new HttpClient();
+        public string JsonString = JsonConvert.SerializeObject(new List<BugModel> { new BugModel { Id = 1, Name = "no product" } });
 
 
         public async Task<List<BugModel>> GetBugsAsync()
         {
             try
             {
-                result = new HttpResponseMessage()
+                Result = new HttpResponseMessage()
                 {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(jsonString)
+                    Content = new StringContent(JsonString)
                 };
 
-                var content = await result.Content.ReadAsStringAsync();
+                var content = await Result.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<BugModel>>(content);
             }
             catch (HttpRequestException e)
@@ -44,19 +42,48 @@ namespace BugsFrontendTests
             }
         }
 
-        public Task DeleteBugAsync(int id)
+        public async Task DeleteBugAsync(int id)
         {
-            throw new System.NotImplementedException();
+            Result = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(JsonString)
+            };
+
+            if (!Result.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException();
+            }
         }
 
-        public Task UpdateBugAsync(int id, string name)
+        public async Task UpdateBugAsync(int id, string name)
         {
-            throw new System.NotImplementedException();
+            Result = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(JsonString)
+            };
+            if (!Result.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException();
+            }
         }
 
-        public Task CreateBugAsync(string name)
+        public async Task CreateBugAsync(string name)
         {
-            throw new System.NotImplementedException();
+
+            var bug = new BugModel { Name = name };
+            BugsName = JsonConvert.SerializeObject(bug);
+            Result = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(JsonString)
+            };
+
+            if (!Result.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException();
+            }
         }
     }
 }

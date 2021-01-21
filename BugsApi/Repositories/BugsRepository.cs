@@ -19,6 +19,7 @@ namespace BugsApi.Repositories
         {
             await appDbContext.Bug.AddAsync(bugModel);
             await appDbContext.SaveChangesAsync();
+
             return new JsonResult(bugModel.Id);
         }
 

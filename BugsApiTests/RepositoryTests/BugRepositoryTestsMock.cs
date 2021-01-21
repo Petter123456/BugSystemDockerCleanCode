@@ -1,16 +1,15 @@
-﻿using BugsApi.Models;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using BugsApi.Models;
 using BugsApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace BugsApi.Controllers.Tests
+namespace BugsApiTests.RepositoryTests
 {
     [TestClass]
     public class BugRepositoryTestsMock : IBugsRepository
     {
-
         public async Task<IActionResult> Create(BugModel bugModel)
         {
             var bugs = new List<BugModel> { new BugModel { Id = 1, Name = "no product" }, new BugModel { Id = 2, Name = "no image" } };
@@ -20,10 +19,8 @@ namespace BugsApi.Controllers.Tests
                 bugs.Add(bugModel);
                 return new JsonResult(true);
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -37,10 +34,9 @@ namespace BugsApi.Controllers.Tests
                 bugs.Remove(existingBug);
                 return new JsonResult(true);
 
-            } else
-            {
-                return null;
             }
+
+            return null;
         }
 
         public async Task<ActionResult<IEnumerable<BugModel>>> Get()
@@ -55,14 +51,14 @@ namespace BugsApi.Controllers.Tests
             var bugs = new List<BugModel> { new BugModel { Id = 1, Name = "no product" } };
 
             var existingBug = bugs.Find(x => x.Id == id);
+
             if (existingBug != null)
             {
                 existingBug = bug;
                 return new JsonResult(true);
-            } else
-            {
-                return null; 
             }
+
+            return null;
         }
     }
 }

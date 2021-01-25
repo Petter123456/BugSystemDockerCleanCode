@@ -11,4 +11,8 @@ describe('Base', function () {
         cy.get('#update').click();
         cy.url().should('eq', 'https://localhost:49163/bugs');
     })
+    it('Should  reset the state of the webapp', () => {
+        cy.visit('https://localhost:49163/bugs');
+        cy.url().should('eq', 'https://localhost:49163/bugs');
+    })
 })

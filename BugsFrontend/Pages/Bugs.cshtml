@@ -15,7 +15,7 @@
             {
                 <ul>
                     <li>
-                        <h3>@bug.Name</h3> <a asp-page-handler="Delete" asp-route-id="@bug.Id" >Delete</a>
+                        <h3 id="InitialbugName">@bug.Name</h3> <a asp-page-handler="Delete" asp-route-id="@bug.Id" >Delete</a>
                         <br/>
                         <form method="post">
                             <input hidden name="id" value="@bug.Id">
